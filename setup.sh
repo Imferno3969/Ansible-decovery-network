@@ -188,11 +188,6 @@ EOF
 
 echo
 
-# Deplacement dans le container 1
-echo "Deplacement dans le container 1..."
-exit
-sudo docker exec -it container1 bash
-
 echo
 
 # Configuration clé ssh entre container1 et container2 
