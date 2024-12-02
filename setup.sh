@@ -187,7 +187,8 @@ echo
 echo "Configuration clé SSH entre container1 et container2..."
 sudo docker exec container1 bash -c "
 ssh-keygen &&
-ssh-copy-id root@172.19.0.3
+ssh-copy-id root@172.19.0.3 &&
+service ssh restart
 "
 
 echo
