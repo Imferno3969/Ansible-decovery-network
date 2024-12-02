@@ -8,11 +8,20 @@ Enfin executer le script "setup.sh" avec la commande ci-dessous :
 - sudo bash ./Téléchargement/setup.sh
 
 
-Une fois le script finit d'éxecuter, il faut aller dans le container1 avec la commande :
-- sudo docker exec -it container1 bash
-- source ~/myenv/bin/activate
+Une fois le script finit d'éxecuter, il faut :
+- aller dans le container2 et redemarrer le service ssh :
+  - sudo docker exec -it container2 bash
+  - service ssh restart
 
-et pour executer le playbook il vous suffit de taper la commande suivante  :
+- aller dans le container1 et faire les commandes suivantes :
+  - sudo docker exec -it container1 bash
+  - source ~/myenv/bin/activate
+  - ssh-keygen (tout valider sans rien écrire)
+  - ssh-copy-id 172.18.0.3
+  - service ssh restart
+
+
+Une fois cela fait, pour executer le playbook il vous suffit de taper la commande suivante  :
 - ansible-playbook -i projet/hosts.ini projet/tasks/scan.yml
 
 
