@@ -182,19 +182,6 @@ EOF
 
 echo
 
-echo
-
-# Configuration clé ssh entre container1 et container2 
-echo "Configuration clé SSH entre container1 et container2..."
-sudo docker exec container1 bash -c "
-apt update &&
-apt install -y sshpass &&
-ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa -q -N '' &&
-sshpass -p '3969' ssh-copy-id -o StrictHostKeyChecking=no root@172.19.0.3
-"
-
-echo
-
 # deconnexion du temporary_network 
 echo "deconnexion du temporary_network..."
 docker network disconnect temporary_network container1
