@@ -155,7 +155,8 @@ git clone https://github.com/Imferno3969/SAE5.02.git &&
 mv SAE5.02/projet/ / &&
 rm -rf SAE5.02 &&
 tree projet/ &&
-pip install packaging
+pip install packaging &&
+pip install pymysql 
 "
 
 echo
