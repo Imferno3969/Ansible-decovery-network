@@ -51,12 +51,4 @@
 	query: "INSERT INTO interface (interfaceid, hostid, main, type, useip, ip, dns, port) VALUES ('{{ next_interfaceid.query_result[0][0].next_interfaceid }}', '{{ next_hostid.query_result[0][0].next_hostid }}', 1, 1, 1, '{{ item[1] }}', '', '10050');"
   when: existing_host.rowcount[0] == 0  # Exécute uniquement si l'hôte n'existe pas
 
-- name: Recuperation de l interfaceid
-  community.mysql.mysql_query:
-	login_user: zabbix
-	login_password: 3969
-	login_db: zabbix
-	login_host: mysql-server
-	query: "SELECT MAX(hostgroupid) + 1 AS next_hostgroupid from hosts_groups;"
-  register: next_hostgroupid
-  when: existing_host.rowcount[0] == 0  # Exécute uniquement si l'hôte n'existe pas
+
