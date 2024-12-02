@@ -149,6 +149,7 @@ sudo docker exec container1 bash -c "
 apt install -y ansible python3-pip python3-venv &&
 python3 -m venv ~/myenv &&
 source ~/myenv/bin/activate &&
+pip install mysql-connector-python matplotlib networkx &&
 apt install -y tree git &&
 git clone https://github.com/Imferno3969/SAE5.02.git &&
 mv SAE5.02/projet/ / &&
