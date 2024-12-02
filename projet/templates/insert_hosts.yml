@@ -12,6 +12,7 @@
   debug:
 	var: existing_host
 
+
 - name: Recuperation de l hostid
   community.mysql.mysql_query:
 	login_user: zabbix
@@ -20,7 +21,7 @@
 	login_host: mysql-server
 	query: "SELECT MAX(hostid) + 1 AS next_hostid FROM hosts;" # Recupere le dernier ID + 1
   register: next_hostid
-  when: existing_host.rowcount[0] == 0  # Ex  cute uniquement si l'h  te n'existe pas
+  when: existing_host.rowcount[0] == 0  # Exécute uniquement si l'hôte n'existe pas
 
 - name: Insertion des hotes dans la table host de zabbix
   community.mysql.mysql_query:
@@ -28,8 +29,8 @@
 	login_password: 3969
 	login_db: zabbix
 	login_host: mysql-server
-	query: "INSERT INTO hosts (hostid, host, name, status, description) VALUES ('{{ next_hostid.query_result[0][0].next_hostid }}','{{ item[[0]] }}', '{{ item[[0]] }}', 0, 'Description of {{item[[0]]}}');"
-  when: existing_host.rowcount[0] == 0  # Ex  cute uniquement si l'h  te n'existe pas
+	query: "INSERT INTO hosts (hostid, host, name, status, description) VALUES ('{{ next_hostid.query_result[0][0].next_hostid }}', '{{ item[0] }}', '{{ item[0] }}', 0, 'Description of {{ item[0] }}');"
+  when: existing_host.rowcount[0] == 0  # Exécute uniquement si l'hôte n'existe pas
 
 - name: Recuperation de l interfaceid
   community.mysql.mysql_query:
@@ -39,7 +40,7 @@
 	login_host: mysql-server
 	query: "SELECT MAX(interfaceid) + 1 AS next_interfaceid FROM interface;"
   register: next_interfaceid
-  when: existing_host.rowcount[0] == 0  # Ex  cute uniquement si l'h  te n'existe pas
+  when: existing_host.rowcount[0] == 0  # Exécute uniquement si l'hôte n'existe pas
 
 - name: Insertion des donnees dans la table interface
   community.mysql.mysql_query:
@@ -48,5 +49,14 @@
 	login_db: zabbix
 	login_host: mysql-server
 	query: "INSERT INTO interface (interfaceid, hostid, main, type, useip, ip, dns, port) VALUES ('{{ next_interfaceid.query_result[0][0].next_interfaceid }}', '{{ next_hostid.query_result[0][0].next_hostid }}', 1, 1, 1, '{{ item[1] }}', '', '10050');"
-  when: existing_host.rowcount[0] == 0  # Ex  cute uniquement si l'h  te n'existe pas
+  when: existing_host.rowcount[0] == 0  # Exécute uniquement si l'hôte n'existe pas
 
+- name: Recuperation de l interfaceid
+  community.mysql.mysql_query:
+	login_user: zabbix
+	login_password: 3969
+	login_db: zabbix
+	login_host: mysql-server
+	query: "SELECT MAX(hostgroupid) + 1 AS next_hostgroupid from hosts_groups;"
+  register: next_hostgroupid
+  when: existing_host.rowcount[0] == 0  # Exécute uniquement si l'hôte n'existe pas
