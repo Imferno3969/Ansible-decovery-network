@@ -187,9 +187,10 @@ echo
 # Configuration clé ssh entre container1 et container2 
 echo "Configuration clé SSH entre container1 et container2..."
 sudo docker exec container1 bash -c "
-ssh-keygen &&
-ssh-copy-id root@172.19.0.3 &&
-service ssh restart
+apt update &&
+apt install -y sshpass &&
+ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa -q -N '' &&
+sshpass -p '3969' ssh-copy-id -o StrictHostKeyChecking=no root@172.19.0.3
 "
 
 echo
