@@ -10,7 +10,7 @@
 
 
     - name: Nmap scan le reseau local
-      command: "nmap -sn 172.19.0.0/24"
+      command: "nmap -sn 172.18.0.0/24"
       register: nmap_output
 
 
