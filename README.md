@@ -22,16 +22,16 @@ mdp global (machine + ssh + mysql + root) :
 - password : 3969
 
 mdp zabbix web :
-username : Admin
-password : zabbix
+- username : Admin
+- password : zabbix
 
+Paramètres :
+- mysql_database = zabbix
+- mysql_user = zabbix
+- mysql password = 3969
+- mysql root password = 3969
 
-mysql_database = zabbix
-mysql_user = zabbix
-mysql password = 3969
-mysql root password = 3969
-
-zabbix-server port : 10051
-zabbix-web port : 8080
+- zabbix-server port : 10051
+- zabbix-web port : 8080
 
 
