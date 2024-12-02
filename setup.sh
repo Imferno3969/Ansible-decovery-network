@@ -127,142 +127,64 @@ sudo docker ps
 
 echo
 
-# Connection au conteneur 1
-echo "Connection au conteneur 1..."
-sudo docker exec -it container1 bash
-
-echo
-
-# Mise à jour des paquets
-echo "Mise à jour des paquets d'Ubuntu..."
-apt update
-
-echo
-
-# Installation des paquets nécessaires 
-echo "Installation des paquets nécessaires..."
-apt install -y net-tools iputils-ping nano iproute2 openssh-server
-
-echo
-
-# Démarrage service ssh
-echo "Démarrage service ssh..."
-service ssh start
-echo "root:3969" | chpasswd
-
-echo
-
-# Modification fichier sshd_config 
-echo "Modification fichier sshd_config..."
-rm /etc/ssh/sshd_config
-bash -c 'cat > /etc/ssh/sshd_config <<EOF
+# Configuration du conteneur 1
+echo "Configuration du conteneur 1..."
+sudo docker exec container1 bash -c "
+apt update && 
+apt install -y net-tools iputils-ping nano iproute2 openssh-server &&
+service ssh start &&
+echo 'root:3969' | chpasswd &&
+rm /etc/ssh/sshd_config &&
+cat > /etc/ssh/sshd_config <<EOF
 Include /etc/ssh/sshd_config.d/*.conf
-
 PasswordAuthentication yes
 PermitRootLogin yes
-
 KbdInteractiveAuthentication no
-
 UsePAM yes
-
 X11Forwarding yes
-
 PrintMotd no
-
 AcceptEnv LANG LC_*
+Subsystem    sftp    /usr/lib/openssh/sftp-server
+EOF"
 
-Subsystem   	sftp	/usr/lib/openssh/sftp-server
-EOF'
-
-echo
-
-# Installation ansible 
-echo "Installation ansible..."
-apt install ansible
 
 echo
 
-# Installation python-pip et python-env
-echo "Installation python-pip et python-env..."
-apt install python3-pip
-apt install python3-venv
-
-echo
-
-# Création environnement virtuel pour Ansible
-echo "Création environnement virtuel pour Ansible..."
-python3 -m venv ~/myenv
-
-echo
-
-# Ouverture de l'environnement virtuel
-echo "Ouverture de l'environnement virtuel..."
-source ~/myenv/bin/activate
-
-echo
-
-# Telechargement de tree et git
-echo "Telechargement de tree et git..."
-apt install tree git
-
-echo
-
-# Telechargement du roles ansible avec ces playbooks yml
-echo "Telechargement du roles ansible avec ces playbooks yml..."
-git clone https://github.com/Imferno3969/SAE5.02.git
-mv SAE5.02/projet/ /
-rm -rf SAE5.02
-
-echo
-
-# Affichage de l'arborescence du dossier projet
-echo "Affichage de l'arborescence du dossier projet..."
+# Installation d'Ansible dans le conteneur 1
+echo "Installation d'Ansible dans le conteneur 1..."
+sudo docker exec container1 bash -c "
+apt install -y ansible python3-pip python3-venv &&
+python3 -m venv ~/myenv &&
+source ~/myenv/bin/activate &&
+apt install -y tree git &&
+git clone https://github.com/Imferno3969/SAE5.02.git &&
+mv SAE5.02/projet/ / &&
+rm -rf SAE5.02 &&
 tree projet/
+"
 
 echo
 
-# Deplacement dans le container 2
-echo "Deplacement dans le container 2..."
-exit
-sudo docker exec -it container2 bash
-
-echo
-
-# Installation des paquets nécessaires 
-echo "Installation des paquets nécessaires..."
-apt update
-apt install -y net-tools iputils-ping nano iproute2 openssh-server
-
-echo
-
-# Démarrage service ssh
-echo "Démarrage service ssh..."
-service ssh start
-echo "root:3969" | chpasswd
-
-echo
-
-# Modification fichier sshd_config 
-echo "Modification fichier sshd_config..."
-rm /etc/ssh/sshd_config
-bash -c 'cat > /etc/ssh/sshd_config <<EOF
+# Configuration du conteneur 2
+echo "Configuration du conteneur 2..."
+sudo docker exec container2 bash -c "
+apt update &&
+apt install -y net-tools iputils-ping nano iproute2 openssh-server &&
+service ssh start &&
+echo 'root:3969' | chpasswd &&
+rm /etc/ssh/sshd_config &&
+cat > /etc/ssh/sshd_config <<EOF
 Include /etc/ssh/sshd_config.d/*.conf
-
 PasswordAuthentication yes
 PermitRootLogin yes
-
 KbdInteractiveAuthentication no
-
 UsePAM yes
-
 X11Forwarding yes
-
 PrintMotd no
-
 AcceptEnv LANG LC_*
-
-Subsystem   	sftp	/usr/lib/openssh/sftp-server
-EOF'
+Subsystem    sftp    /usr/lib/openssh/sftp-server
+EOF
+"
 
 echo
 
@@ -274,9 +196,11 @@ sudo docker exec -it container1 bash
 echo
 
 # Configuration clé ssh entre container1 et container2 
-echo "Configuration clé ssh entre container1 et container2..."
-ssh-keygen
-ssh-copy-id root@172.19.0.3
+echo "Configuration clé SSH entre container1 et container2..."
+sudo docker exec container1 bash -c "
+ssh-keygen &&
+sshpass -p '3969' ssh-copy-id -o StrictHostKeyChecking=no root@172.19.0.3
+"
 
 echo
 
