@@ -37,13 +37,6 @@ sudo apt install -y docker-ce docker-ce-cli containerd.io
 
 echo
 
-# Vérification de l'installation de Docker
-echo "Vérification de l'installation de Docker :"
-sudo docker --version
-sudo systemctl status docker
-
-echo
-
 # Création d'un réseau Docker isolé
 echo "Création d'un réseau Docker isolé..."
 sudo docker network create \
