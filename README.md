@@ -24,6 +24,7 @@ Une fois le script finit d'éxecuter, il faut :
 Une fois cela fait, pour executer le playbook il vous suffit de taper la commande suivante  :
 - ansible-playbook -i projet/hosts.ini projet/tasks/scan.yml
 
+Une fois cela fait, vous avez plus qu'à aller dans zabbix sur le web pour voir les hotes qui ont été ajouté
 
 Post-Scriptum :
 
