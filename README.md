@@ -1,9 +1,10 @@
 Télécharger le script ( setup.sh ) via internet ( https://github.com/Imferno3969/SAE5.02 ) 
 Une fois télécharger faite les commandes suivante pour pouvoir éxécuter le script :
-- sudo apt install dos2unix
-- sudo chmod +x ./Téléchargement/setup.sh
-- dos2unix ./Telechargement/setup.sh
-
+```shell
+sudo apt install dos2unix
+sudo chmod +x ./Téléchargement/setup.sh
+dos2unix ./Telechargement/setup.sh
+```
 Enfin executer le script "setup.sh" avec la commande ci-dessous :
 - sudo bash ./Téléchargement/setup.sh
 
